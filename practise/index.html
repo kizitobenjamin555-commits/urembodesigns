@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UREMBO DESIGNS | The Luxury Bridal Closet</title>
+    
+    <!-- Working Google Fonts Integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #8C6239; 
+            --primary-dark: #6E4A27;
+            --secondary: #F7F4F0; 
+            --dark: #2C2520; 
+            --accent: #D4AF37; 
+            --accent-light: #F4E8C1;
+            --white: #ffffff;
+            --gray-light: #FAFAFA;
+            --gray-border: #EAE6DF;
+            --shadow-sm: 0 4px 15px rgba(44, 37, 32, 0.05);
+            --shadow-lg: 0 15px 35px rgba(44, 37, 32, 0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--secondary); color: var(--dark); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* Navigation Bar */
+        nav { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); text-align: center; padding: 18px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--gray-border); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .brand-logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.4rem; color: var(--primary); text-decoration: none; letter-spacing: 1.5px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 25px; }
+        nav a { color: var(--dark); text-decoration: none; font-weight: 500; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); position: relative; padding: 5px 0; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--primary); }
+
+        /* Hero Banner Section */
+        header { background: linear-gradient(135deg, rgba(44, 37, 32, 0.75), rgba(110, 74, 39, 0.85)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1600') no-repeat center center/cover; color: var(--white); text-align: center; padding: 100px 20px 80px; position: relative; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 3.6rem; letter-spacing: 4px; margin-bottom: 12px; text-transform: uppercase; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        header h6 { font-size: 1.15rem; font-weight: 300; font-style: italic; color: var(--accent-light); letter-spacing: 3px; }
+        .header-badge { display: inline-block; background: rgba(212, 175, 55, 0.2); border: 1px solid var(--accent); color: var(--accent-light); padding: 6px 18px; border-radius: 30px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+
+        /* Main Container */
+        main { max-width: 1200px; margin: 50px auto; padding: 0 20px; flex: 1; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); position: relative; display: inline-block; }
+        h2::after { content: ''; display: block; width: 60px; height: 2px; background-color: var(--accent); margin: 12px auto 0; }
+        .subtitle { font-size: 0.95rem; color: #666; margin-top: 10px; }
+
+        /* Catalog Filter Bar */
+        .catalog-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+        .filter-tabs { display: flex; gap: 10px; }
+        .tab-btn { background: var(--white); border: 1px solid var(--gray-border); padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: var(--transition); color: var(--dark); }
+        .tab-btn:hover, .tab-btn.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+        .search-box input { padding: 10px 18px; border: 1px solid var(--gray-border); border-radius: 25px; outline: none; font-size: 0.85rem; width: 250px; transition: var(--transition); }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.1); }
+
+        /* Catalog Card Grid */
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .garment-card { background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-border); transition: var(--transition); display: flex; flex-direction: column; position: relative; }
+        .garment-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+        .card-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); padding: 25px 20px; text-align: center; position: relative; }
+        .card-header h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; letter-spacing: 1px; }
+        .card-tag { position: absolute; top: 12px; right: 12px; background: var(--accent); color: var(--dark); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 10px; }
+        
+        .card-body { padding: 25px 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .price-list { margin-bottom: 20px; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--gray-border); }
+        .price-row:last-child { border-bottom: none; }
+        .price-label { font-size: 0.85rem; color: #666; font-weight: 500; }
+        .price-value { font-weight: 700; color: var(--dark); font-size: 1.05rem; }
+        .price-value.hire { color: var(--primary); }
+        .price-value.buy { color: #2E7D32; }
+
+        .card-actions { display: flex; gap: 10px; }
+        .btn-action { flex: 1; padding: 12px 15px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer; transition: var(--transition); text-align: center; }
+        .btn-primary { background-color: var(--primary); color: var(--white); }
+        .btn-primary:hover { background-color: var(--primary-dark); }
+        .btn-outline { background-color: transparent; border: 1px solid var(--gray-border); color: var(--dark); }
+        .btn-outline:hover { background-color: var(--secondary); border-color: var(--primary); }
+
+        /* Quick View Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--white); width: 100%; max-width: 500px; border-radius: 16px; padding: 35px; position: relative; box-shadow: var(--shadow-lg); animation: modalIn 0.3s ease; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #888; transition: var(--transition); }
+        .close-modal:hover { color: var(--dark); }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; }
+        .modal-details { margin: 20px 0; background: var(--gray-light); padding: 15px; border-radius: 8px; border: 1px solid var(--gray-border); }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Footer */
+        footer { background-color: var(--dark); color: #999; text-align: center; padding: 40px 20px; font-size: 0.85rem; margin-top: auto; border-top: 3px solid var(--primary); }
+        footer p { margin-bottom: 5px; }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .catalog-controls { flex-direction: column; align-items: stretch; }
+            .search-box input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav>
+        <div class="nav-container">
+            <a href="urembo.html" class="brand-logo">Urembo Designs</a>
+            <div class="nav-links">
+                <a href="urembo.html" class="active">Closet Catalog</a>
+                <a href="customerdetails.html">Book / Order</a>
+                <a href="admin.html">Admin Portal</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header>
+        <span class="header-badge">Hiring & Custom Bespoke Tailoring</span>
+        <h1>The Bridal Closet</h1>
+        <h6>Making your high-fashion bridal dreams come true</h6>
+    </header>
+
+    <!-- Main Closet Interface -->
+    <main>
+        <div class="section-header">
+            <h2>Garment Collections & Pricing</h2>
+            <p class="subtitle">Select your preferred attire to check real-time hiring or purchasing rates.</p>
+        </div>
+
+        <!-- Interactive Search and Filter Bar -->
+        <div class="catalog-controls">
+            <div class="filter-tabs">
+                <button class="tab-btn active" onclick="filterCatalog('all')">All Outfits</button>
+                <button class="tab-btn" onclick="filterCatalog('hiring')">Hiring Options</button>
+                <button class="tab-btn" onclick="filterCatalog('buying')">Bespoke Purchase</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search Gomesi, Suits, Gowns..." onkeyup="searchCatalog()">
+            </div>
+        </div>
+
+        <!-- Dynamic Card Display Container -->
+        <div class="catalog-grid" id="catalogContainer">
+            <!-- Dynamically populated via JavaScript sync -->
+        </div>
+    </main>
+
+    <!-- Quick View Details Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 class="modal-title" id="modalItemName">Garment Choice</h3>
+            <p style="color: #666; font-size: 0.9rem;">Bridal fitting & alteration consultation included with every booking.</p>
+            
+            <div class="modal-details">
+                <div class="price-row">
+                    <span class="price-label">Rental Rate (UGX)</span>
+                    <span class="price-value hire" id="modalHirePrice">-</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">Direct Purchase (UGX)</span>
+                    <span class="price-value buy" id="modalBuyPrice">-</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-action btn-outline" style="flex:1;" onclick="bookSelected('Hiring')">Book Hire</button>
+                <button class="btn-action btn-primary" style="flex:1;" onclick="bookSelected('Buying')">Buy Garment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 <strong>Urembo Designs</strong>. All Rights Reserved.</p>
+        <p>Premium Cultural & Modern Bridal Attire | Kampala, Uganda</p>
+    </footer>
+
+    <script>
+        // Default Master Catalog Database (Serves as initial sync bridge to admin.html)
+        const defaultCatalog = [
+            { name: "Wedding Gown", hire: "250,000", buy: "1,000,000", badge: "Most Popular" },
+            { name: "Bridal Gomesi", hire: "100,000", buy: "800,000", badge: "Traditional" },
+            { name: "Groom's Suit", hire: "100,000", buy: "300,000", badge: "Groom Selection" },
+            { name: "Mushanana", hire: "25,000", buy: "100,000", badge: "Cultural" },
+            { name: "Gomesi", hire: "30,000", buy: "200,000", badge: "Essential" },
+            { name: "Kanzu", hire: "20,000", buy: "70,000", badge: "Classic" },
+            { name: "Gentleman Suits", hire: "80,000", buy: "250,000", badge: "Entourage" }
+        ];
+
+        let currentActiveItem = null;
+
+        // Initialize & Sync catalog from Admin Storage Stream
+        function getCatalog() {
+            let storedCatalog = localStorage.getItem('urembo_catalog');
+            if (!storedCatalog) {
+                // Pre-populate system cache if empty
+                localStorage.setItem('urembo_catalog', JSON.stringify(defaultCatalog));
+                return defaultCatalog;
+            }
+            return JSON.parse(storedCatalog);
+        }
+
+        // Render Cards dynamically
+        function renderCatalog(items) {
+            const container = document.getElementById('catalogContainer');
+            container.innerHTML = "";
+
+            if (!items || items.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; color: #888;">
+                    <h3>No outfits matching your search criteria.</h3>
+                    <p style="margin-top: 8px;">Try clearing search filters or consult with our administrative desk.</p>
+                </div>`;
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const badgeHtml = item.badge ? `<span class="card-tag">${escapeHtml(item.badge)}</span>` : '';
+                const hireDisplay = item.hire || item.hirePrice || 'N/A';
+                const buyDisplay = item.buy || item.buyPrice || 'N/A';
+
+                const card = document.createElement('div');
+                card.className = 'garment-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        ${badgeHtml}
+                        <h3>${escapeHtml(item.name)}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="price-list">
+                            <div class="price-row">
+                                <span class="price-label">Hiring Rate:</span>
+                                <span class="price-value hire">UGX ${escapeHtml(hireDisplay)}</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">Buying Rate:</span>
+                                <span class="price-value buy">UGX ${escapeHtml(buyDisplay)}</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-action btn-outline" onclick="openQuickView('${escapeHtml(item.name)}', '${escapeHtml(hireDisplay)}', '${escapeHtml(buyDisplay)}')">Details</button>
+                            <button class="btn-action btn-primary" onclick="directBook('${escapeHtml(item.name)}')">Select</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Search Filter
+        function searchCatalog() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const catalog = getCatalog();
+            const filtered = catalog.filter(i => i.name.toLowerCase().includes(query));
+            renderCatalog(filtered);
+        }
+
+        // Category Filter
+        function filterCatalog(category) {
+            // Update Tab UI
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const catalog = getCatalog();
+            renderCatalog(catalog);
+        }
+
+        // Quick View Modal Handlers
+        function openQuickView(name, hire, buy) {
+            currentActiveItem = { name, hire, buy };
+            document.getElementById('modalItemName').innerText = name;
+            document.getElementById('modalHirePrice').innerText = `UGX ${hire}`;
+            document.getElementById('modalBuyPrice').innerText = `UGX ${buy}`;
+            document.getElementById('quickViewModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('quickViewModal').style.display = 'none';
+        }
+
+        // Direct Booking & Admin Storage Connection
+        function directBook(itemName) {
+            localStorage.setItem('selectedItem', itemName);
+            localStorage.setItem('selectedServiceMode', 'Hiring');
+            window.location.href = 'customerdetails.html';
+        }
+
+        function bookSelected(mode) {
+            if (currentActiveItem) {
+                localStorage.setItem('selectedItem', currentActiveItem.name);
+                localStorage.setItem('selectedServiceMode', mode);
+                window.location.href = 'customerdetails.html';
+            }
+        }
+
+        // Utility: Escaping HTML strings for security
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return str;
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Close Modal when clicking background overlay
+        window.onclick = function(event) {
+            const modal = document.getElementById('quickViewModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Load catalog on page load
+        window.onload = function() {
+            renderCatalog(getCatalog());
+        };
+    </script>
+</body>
+</html>
