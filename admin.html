@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Urembo Designs</title>
+    
+    <!-- Google Fonts Integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --primary: #8C6239; 
+            --primary-dark: #6E4A27;
+            --secondary: #F7F4F0; 
+            --dark: #2C2520; 
+            --white: #ffffff;
+            --gray-light: #F9F9F9;
+            --gray-border: #E0E0E0;
+            --success: #2E7D32;
+            --error: #C62828;
+            --warning: #EF6C00;
+            --shadow: 0 10px 30px rgba(44, 37, 32, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--secondary); color: var(--dark); min-height: 100vh; padding: 40px 20px; }
+        
+        /* Centered Premium Login Container */
+        .login-box {
+            max-width: 420px; 
+            margin: 80px auto; 
+            background: var(--white); 
+            padding: 45px 40px; 
+            border-radius: 16px; 
+            box-shadow: var(--shadow); 
+            text-align: center;
+            transition: var(--transition);
+        }
+        .login-box h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 10px; color: var(--primary); }
+        .login-box p { font-size: 0.85rem; color: #777; margin-bottom: 30px; }
+        .login-box input { width: 100%; padding: 14px; margin-bottom: 18px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 0.95rem; outline: none; transition: var(--transition); }
+        .login-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.1); }
+        .login-box button { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: var(--transition); }
+        .login-box button:hover { background: var(--primary-dark); }
+        
+        /* Dashboard Layout */
+        .dashboard { display: none; max-width: 1200px; margin: 0 auto; background: var(--white); padding: 40px; border-radius: 16px; box-shadow: var(--shadow); animation: fadeIn 0.4s ease; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--gray-border); padding-bottom: 20px;}
+        .dash-header h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--dark); }
+        .dash-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        
+        /* Control Buttons */
+        .btn-dash { padding: 10px 20px; font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 0.5px; transition: var(--transition); }
+        .export-btn { background: #E8F5E9; color: var(--success); border: 1px solid #C8E6C9; }
+        .export-btn:hover { background: #C8E6C9; }
+        .clear-btn { background: #FFF3E0; color: var(--warning); border: 1px solid #FFE0B2; }
+        .clear-btn:hover { background: #FFE0B2; }
+        .logout-btn { background: #FFEBEE; color: var(--error); border: 1px solid #FFCDD2; }
+        .logout-btn:hover { background: #FFCDD2; }
+        .delete-btn { background: #FFEBEE; color: var(--error); border: 1px solid #FFCDD2; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .delete-btn:hover { background: var(--error); color: var(--white); }
+        .edit-btn { background: #E3F2FD; color: #1565C0; border: 1px solid #BBDEFB; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-right: 6px; }
+        .edit-btn:hover { background: #1565C0; color: var(--white); }
+        .pay-btn { background: #E8F5E9; color: var(--success); border: 1px solid #C8E6C9; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-right: 6px; }
+        .pay-btn:hover { background: var(--success); color: var(--white); }
+
+        /* Filter Search Bar */
+        .search-container { margin-bottom: 15px; }
+        .search-container input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 0.9rem; outline: none; }
+        .search-container input:focus { border-color: var(--primary); }
+
+        /* Catalog Form Layout */
+        .catalog-form-container { background: var(--gray-light); padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 1px solid var(--gray-border); }
+        .catalog-form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; }
+        .catalog-form-grid input { padding: 12px; border: 1px solid var(--gray-border); border-radius: 6px; font-size: 0.9rem; outline: none; }
+        .catalog-form-grid input:focus { border-color: var(--primary); }
+
+        /* Data Tables */
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid var(--gray-border); margin-bottom: 40px; }
+        table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        th, td { padding: 16px 20px; text-align: left; font-size: 0.9rem; }
+        th { background-color: var(--primary); color: var(--white); font-weight: 600; letter-spacing: 0.5px; }
+        tr { border-bottom: 1px solid var(--gray-border); transition: var(--transition); }
+        tr:last-child { border-bottom: none; }
+        tbody tr:hover { background-color: var(--gray-light); }
+        
+        /* Badges & Meta */
+        .meta-text { font-size: 0.78rem; color: #777; margin-top: 4px; display: block; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge-hiring { background-color: #E3F2FD; color: #1565C0; }
+        .badge-buying { background-color: #E8F5E9; color: #2E7D32; }
+        .badge-paid { background-color: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+        .badge-pending { background-color: #FFF3E0; color: #EF6C00; border: 1px solid #FFE0B2; }
+        
+        .alert-notice { padding: 12px; background: #FFEBEE; color: var(--error); border-radius: 8px; font-size: 0.85rem; margin-bottom: 18px; font-weight: 500; display: none; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .dash-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .dash-actions { width: 100%; justify-content: flex-start; }
+            .dashboard { padding: 25px; }
+            .catalog-form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Form Section -->
+    <div class="login-box" id="loginBox">
+        <h2>Urembo Console</h2>
+        <p>Enter security clearance keys to access management metrics.</p>
+        
+        <div class="alert-notice" id="loginAlert">Incorrect administrative security details!</div>
+        
+        <input type="text" id="username" placeholder="Username (admin)" autocomplete="off">
+        <input type="password" id="password" placeholder="Password (urembo123)">
+        <button onclick="handleLogin()">Authorize Access</button>
+    </div>
+
+    <!-- Hidden Dashboard Section -->
+    <div class="dashboard" id="dashBox">
+        
+        <!-- Header Controls -->
+        <div class="dash-header">
+            <h2>Customer Orders Received</h2>
+            <div class="dash-actions">
+                <button class="btn-dash export-btn" onclick="exportToCSV()">Export CSV</button>
+                <button class="btn-dash clear-btn" onclick="clearData()">Wipe Local Cache</button>
+                <button class="btn-dash logout-btn" onclick="handleLogout()">Secure Logout</button>
+            </div>
+        </div>
+
+        <!-- Filter Search Bar -->
+        <div class="search-container">
+            <input type="text" id="orderSearch" placeholder="Search orders by name, phone, item, or reference..." onkeyup="filterOrders()">
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp / Order ID</th>
+                        <th>Client Profiling</th>
+                        <th>Contact / Phone</th>
+                        <th>Fittings Location</th>
+                        <th>Item Choice</th>
+                        <th>Service Mode</th>
+                        <th>Payment Status</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Dynamic bookings sync -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Catalog Pricing Section Header -->
+        <div class="dash-header" style="margin-top: 20px;">
+            <h2>Manage Catalog Pricing</h2>
+        </div>
+
+        <!-- Add / Update Catalog Form -->
+        <div class="catalog-form-container">
+            <h4 style="margin-bottom: 15px; font-family: 'Playfair Display', serif; font-size: 1.2rem;">Add / Update Catalog Item</h4>
+            <div class="catalog-form-grid" id="catalogForm">
+                <input type="text" id="itemName" placeholder="Item Name (e.g., Mushanana)">
+                <input type="text" id="itemHire" placeholder="Hiring Price (e.g., 35,000)">
+                <input type="text" id="itemBuy" placeholder="Buying Price (e.g., 120,000)">
+                <button class="btn-dash" style="background: var(--primary); color: white;" onclick="saveCatalogItem()">Save Item</button>
+            </div>
+        </div>
+
+        <!-- Catalog Table -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Garment Choice</th>
+                        <th>Hiring Rate (UGX)</th>
+                        <th>Buying Rate (UGX)</th>
+                        <th style="text-align: right;">Administrative Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="adminCatalogBody">
+                    <!-- Live catalog items sync -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api/bookings';
+
+        // Check for active session on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('urembo_auth') === 'true') {
+                document.getElementById('loginBox').style.display = "none";
+                document.getElementById('dashBox').style.display = "block";
+                loadDashboardData();
+                loadCatalogData();
+            }
+        });
+
+        // Check Login Credentials
+        function handleLogin() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const alertBox = document.getElementById('loginAlert');
+
+            if(user === "admin" && pass === "urembo123") {
+                alertBox.style.display = "none";
+                sessionStorage.setItem('urembo_auth', 'true');
+                document.getElementById('loginBox').style.display = "none";
+                document.getElementById('dashBox').style.display = "block";
+                loadDashboardData();
+                loadCatalogData();
+            } else {
+                alertBox.style.display = "block";
+            }
+        }
+
+        // Handle Logout
+        function handleLogout() {
+            sessionStorage.removeItem('urembo_auth');
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
+            document.getElementById('dashBox').style.display = "none";
+            document.getElementById('loginBox').style.display = "block";
+        }
+
+        // Load Booking Orders (REST API + LocalStorage Fallback)
+        async function loadDashboardData() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = "";
+
+            let bookings = [];
+
+            try {
+                // Fetch live data from Express REST API
+                const response = await fetch(API_BASE_URL);
+                if (response.ok) {
+                    const data = await response.json();
+                    bookings = data.bookings || [];
+                } else {
+                    throw new Error('API server returned non-200 status');
+                }
+            } catch (err) {
+                console.warn('Backend offline or fetch failed. Falling back to local cache stream:', err.message);
+                bookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+            }
+
+            if(bookings.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px; color:#888;">No orders recorded in database streams yet.</td></tr>`;
+                return;
+            }
+
+            bookings.forEach(data => {
+                const bookingId = data.id || 'N/A';
+                const addressStr = escapeHtml(data.address || "Not provided");
+                const ninStr = data.ninNumber ? `NIN: ${escapeHtml(data.ninNumber)}` : "No NIN Captured";
+                const refStr = data.customerNumber ? `Ref: ${escapeHtml(data.customerNumber)}` : "Direct Booking";
+                const typeClass = data.type ? data.type.toLowerCase() : 'hiring';
+                
+                const rawStatus = (data.paymentStatus || 'PENDING PAYMENT').toUpperCase();
+                const statusBadgeClass = rawStatus === 'PAID' ? 'badge-paid' : 'badge-pending';
+                const txIdStr = data.transactionId && data.transactionId !== 'N/A' ? `TxID: ${escapeHtml(data.transactionId)}` : 'No TxID';
+
+                let row = `<tr>
+                    <td>
+                        <b>${escapeHtml(data.date || 'N/A')}</b>
+                        <span class="meta-text">ID: ${escapeHtml(bookingId)}</span>
+                    </td>
+                    <td>
+                        <div style="font-weight:600; color:var(--dark);">${escapeHtml(data.name || 'Anonymous')}</div>
+                        <span class="meta-text">${refStr}</span>
+                    </td>
+                    <td>
+                        <div>${escapeHtml(data.phone || 'N/A')}</div>
+                        <span class="meta-text">${ninStr}</span>
+                    </td>
+                    <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${addressStr}">
+                        ${addressStr}
+                    </td>
+                    <td><span style="font-weight: 500; color: var(--primary);">${escapeHtml(data.item || 'Not Specified')}</span></td>
+                    <td><span class="badge badge-${typeClass}">${escapeHtml(data.type || 'Hiring')}</span></td>
+                    <td>
+                        <span class="badge ${statusBadgeClass}">${rawStatus}</span>
+                        <span class="meta-text">${txIdStr}</span>
+                    </td>
+                    <td style="text-align: right;">
+                        <button class="pay-btn" onclick="updatePaymentStatus('${bookingId}')">Payment</button>
+                        <button class="delete-btn" onclick="deleteBookingRecord('${bookingId}')">Delete</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // PUT /api/bookings/:id/payment - Update Payment Status and Transaction ID
+        async function updatePaymentStatus(bookingId) {
+            if (!bookingId || bookingId === 'N/A') {
+                alert("Cannot update a record without a valid Booking ID.");
+                return;
+            }
+
+            const transactionId = prompt(`Enter Payment Transaction ID / Reference for Order [${bookingId}]:`);
+            if (transactionId === null) return; // User canceled prompt
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/${bookingId}/payment`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        paymentStatus: 'PAID',
+                        transactionId: transactionId.trim() || 'MANUAL_OVERRIDE'
+                    })
+                });
+
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Failed to update payment');
+
+                alert(`Success: Payment for ${bookingId} updated to PAID.`);
+                loadDashboardData();
+            } catch (err) {
+                console.warn('REST API update failed, attempting local cache fallback:', err.message);
+                
+                // Fallback for local storage
+                let bookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+                const idx = bookings.findIndex(b => b.id === bookingId);
+                if (idx > -1) {
+                    bookings[idx].paymentStatus = 'PAID';
+                    bookings[idx].transactionId = transactionId.trim() || 'MANUAL_OVERRIDE';
+                    localStorage.setItem('urembo_bookings', JSON.stringify(bookings));
+                    alert(`Local Record Updated: Payment for ${bookingId} set to PAID.`);
+                    loadDashboardData();
+                } else {
+                    alert(`Error updating payment: ${err.message}`);
+                }
+            }
+        }
+
+        // DELETE /api/bookings/:id - Delete an Order Record
+        async function deleteBookingRecord(bookingId) {
+            if (!confirm(`CRITICAL WARNING: Are you sure you want to permanently delete order [${bookingId}]?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/${bookingId}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Failed to delete booking');
+
+                // Sync local storage if present
+                let localBookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+                localBookings = localBookings.filter(b => b.id !== bookingId);
+                localStorage.setItem('urembo_bookings', JSON.stringify(localBookings));
+
+                loadDashboardData();
+            } catch (err) {
+                console.warn('REST API delete failed, executing local storage cleanup:', err.message);
+                
+                let localBookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+                localBookings = localBookings.filter(b => b.id !== bookingId);
+                localStorage.setItem('urembo_bookings', JSON.stringify(localBookings));
+                loadDashboardData();
+            }
+        }
+
+        // Filter Orders in Real-Time
+        function filterOrders() {
+            const query = document.getElementById('orderSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        // Export Booking Orders as CSV File
+        async function exportToCSV() {
+            let bookings = [];
+
+            try {
+                const response = await fetch(API_BASE_URL);
+                if (response.ok) {
+                    const data = await response.json();
+                    bookings = data.bookings || [];
+                }
+            } catch (err) {
+                bookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+            }
+
+            if(bookings.length === 0) {
+                alert("No order records available to export.");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,ID,Timestamp,Name,Phone,Reference,NIN,Address,Item,Service Mode,Payment Status,Transaction ID\n";
+            bookings.forEach(b => {
+                let row = [
+                    `"${b.id || ''}"`,
+                    `"${b.date || ''}"`,
+                    `"${b.name || ''}"`,
+                    `"${b.phone || ''}"`,
+                    `"${b.customerNumber || ''}"`,
+                    `"${b.ninNumber || ''}"`,
+                    `"${(b.address || '').replace(/"/g, '""')}"`,
+                    `"${b.item || ''}"`,
+                    `"${b.type || ''}"`,
+                    `"${b.paymentStatus || 'PENDING PAYMENT'}"`,
+                    `"${b.transactionId || 'N/A'}"`
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `urembo_orders_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Clear Order Log Data
+        function clearData() {
+            if(confirm("CRITICAL WARNING: Are you completely sure you want to permanently clear out all client local cache logs? This action cannot be reversed.")) {
+                localStorage.removeItem('urembo_bookings');
+                loadDashboardData();
+            }
+        }
+
+        // Manage Catalog Items (Add / Edit)
+        function saveCatalogItem() {
+            const nameInput = document.getElementById('itemName');
+            const hireInput = document.getElementById('itemHire');
+            const buyInput = document.getElementById('itemBuy');
+
+            const name = nameInput.value.trim();
+            const hire = hireInput.value.trim();
+            const buy = buyInput.value.trim();
+
+            if (!name || !hire || !buy) {
+                alert("Please fill in all three fields for the garment catalog item.");
+                return;
+            }
+
+            let catalog = JSON.parse(localStorage.getItem('urembo_catalog')) || [];
+            
+            // Check if item exists to update it, or add new
+            const existingIndex = catalog.findIndex(item => item.name.toLowerCase() === name.toLowerCase());
+            
+            if (existingIndex > -1) {
+                catalog[existingIndex] = { name, hire, buy };
+            } else {
+                catalog.push({ name, hire, buy });
+            }
+
+            localStorage.setItem('urembo_catalog', JSON.stringify(catalog));
+            
+            // Reset input forms
+            nameInput.value = '';
+            hireInput.value = '';
+            buyInput.value = '';
+
+            loadCatalogData();
+        }
+
+        // Edit Catalog Item Helper
+        function editCatalogItem(index) {
+            let catalog = JSON.parse(localStorage.getItem('urembo_catalog')) || [];
+            const item = catalog[index];
+            if (item) {
+                document.getElementById('itemName').value = item.name;
+                document.getElementById('itemHire').value = item.hire;
+                document.getElementById('itemBuy').value = item.buy;
+                document.getElementById('itemName').focus();
+            }
+        }
+
+        // Load Catalog Table
+        function loadCatalogData() {
+            const catalogBody = document.getElementById('adminCatalogBody');
+            catalogBody.innerHTML = "";
+
+            let catalog = JSON.parse(localStorage.getItem('urembo_catalog')) || [];
+
+            if (catalog.length === 0) {
+                catalogBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 30px; color:#888;">No catalog items added yet.</td></tr>`;
+                return;
+            }
+
+            catalog.forEach((item, index) => {
+                let row = `<tr>
+                    <td><b style="color: var(--dark);">${escapeHtml(item.name)}</b></td>
+                    <td>${escapeHtml(item.hire)}</td>
+                    <td>${escapeHtml(item.buy)}</td>
+                    <td style="text-align: right;">
+                        <button class="edit-btn" onclick="editCatalogItem(${index})">Edit</button>
+                        <button class="delete-btn" onclick="deleteCatalogItem(${index})">Delete</button>
+                    </td>
+                </tr>`;
+                catalogBody.innerHTML += row;
+            });
+        }
+
+        // Delete Individual Catalog Item
+        function deleteCatalogItem(index) {
+            let catalog = JSON.parse(localStorage.getItem('urembo_catalog')) || [];
+            if(confirm(`Are you sure you want to delete "${catalog[index].name}" from the catalog?`)) {
+                catalog.splice(index, 1);
+                localStorage.setItem('urembo_catalog', JSON.stringify(catalog));
+                loadCatalogData();
+            }
+        }
+
+        // XSS Helper Function
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

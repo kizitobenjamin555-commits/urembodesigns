@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Order | Urembo Designs</title>
+    
+    <!-- Working Google Fonts Integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --primary: #8C6239; 
+            --primary-dark: #6E4A27;
+            --secondary: #F7F4F0; 
+            --dark: #2C2520; 
+            --white: #ffffff;
+            --gray-light: #F1F1F1;
+            --gray-border: #DDD;
+            --success: #2E7D32;
+            --error: #C62828;
+            --info: #1565C0;
+            --warning: #EF6C00;
+            --shadow: 0 10px 30px rgba(44, 37, 32, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--secondary); color: var(--dark); padding-bottom: 60px; line-height: 1.6; }
+        
+        /* Navigation */
+        .navbar { background-color: var(--white); box-shadow: 0 2px 15px rgba(0,0,0,0.03); padding: 20px 0; margin-bottom: 40px; position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: 0.5px; }
+        .nav-links a { color: var(--dark); text-decoration: none; font-weight: 500; margin-left: 25px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* Header */
+        .page-header { text-align: center; max-width: 700px; margin: 0 auto 35px auto; padding: 0 20px; }
+        .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+        .page-header p { color: #777; font-size: 1rem; }
+
+        /* Form Card */
+        .checkout-card { max-width: 750px; margin: 0 auto; background: var(--white); padding: 45px; border-radius: 16px; box-shadow: var(--shadow); }
+        
+        /* Form Sections */
+        .form-section { margin-bottom: 35px; border-bottom: 1px solid var(--gray-light); padding-bottom: 25px; }
+        .form-section:last-of-type { border-bottom: none; padding-bottom: 0; }
+        .form-section h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dark); margin-bottom: 25px; display: flex; align-items: center; }
+        .step-num { background-color: var(--primary); color: var(--white); width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; font-family: 'Poppins', sans-serif; font-weight: 600; margin-right: 12px; }
+        
+        /* Step 3 Locked State */
+        .payment-section-disabled { opacity: 0.5; pointer-events: none; filter: grayscale(0.8); }
+
+        /* Inputs */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 22px; position: relative; }
+        label { display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem; color: var(--dark); }
+        input, select { width: 100%; padding: 13px 16px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 0.95rem; color: var(--dark); background-color: var(--white); outline: none; transition: var(--transition); }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.1); }
+        
+        /* Status Boxes */
+        .status-box { padding: 16px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 500; margin: 20px 0; display: none; line-height: 1.5; }
+        .status-loading { background-color: #E3F2FD; color: var(--info); border: 1px solid #BBDEFB; }
+        .status-success { background-color: #E8F5E9; color: var(--success); border: 1px solid #C8E6C9; }
+        .status-error { background-color: #FFEBEE; color: var(--error); border: 1px solid #FFCDD2; }
+        
+        /* Buttons */
+        .form-actions { display: flex; gap: 15px; margin-top: 20px; }
+        .btn { flex: 1; padding: 14px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; cursor: pointer; border: none; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+        .btn-secondary { background-color: var(--gray-light); color: var(--dark); }
+        .btn-secondary:hover { background-color: var(--gray-border); }
+        .btn-submit { background-color: var(--dark); color: var(--white); }
+        .btn-submit:hover { background-color: #000; }
+        .btn-pay { background-color: var(--primary); color: var(--white); }
+        .btn-pay:hover { background-color: var(--primary-dark); }
+        .btn:disabled { background-color: #CCC !important; color: #888 !important; cursor: not-allowed; }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .checkout-card { padding: 25px; }
+            .form-actions { flex-direction: column; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="urembo.html" class="nav-brand">Urembo Designs</a>
+            <div class="nav-links">
+                <a href="urembo.html">Closet Catalog</a>
+                <a href="customerdetails.html" class="active">Book & Pay</a>
+                <a href="admin.html">Admin Portal</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <header class="page-header">
+            <h1>Complete Your Checkout</h1>
+            <p>Step 1: Submit your booking details. Step 2: Pay via Mobile Money.</p>
+        </header>
+
+        <div class="checkout-card">
+            
+            <!-- STAGE 1: CUSTOMER DETAILS FORM -->
+            <form id="customerDetailsForm" onsubmit="handleDetailsSubmission(event)">
+                
+                <!-- Section 1: Order Config -->
+                <section class="form-section">
+                    <h3><span class="step-num">1</span> Order Selection</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="custItem">Selected Attire</label>
+                            <select id="custItem" name="attireItem" required>
+                                <option value="Gomesi">Gomesi</option>
+                                <option value="Kanzu">Kanzu</option>
+                                <option value="Gentleman Suits">Gentleman Suits</option>
+                                <option value="Wedding Gown">Wedding Gown</option>
+                                <option value="Bridal Gomesi">Bridal Gomesi</option>
+                                <option value="Mushanana">Mushanana</option>
+                                <option value="Groom's Suit">Groom's Suit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceType">Service Mode</label>
+                            <select id="serviceType" name="serviceType" required>
+                                <option value="Hiring">Hiring</option>
+                                <option value="Buying">Buying</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Personal Details -->
+                <section class="form-section">
+                    <h3><span class="step-num">2</span> Personal & Delivery Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input type="text" id="fname" placeholder="Kizito" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="text" id="lname" placeholder="Benjamin" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone / WhatsApp Contact</label>
+                            <input type="tel" id="phone" placeholder="e.g. 0770000000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerNumber">Customer Ref Number</label>
+                            <input type="text" id="customerNumber" placeholder="Auto-generated">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add">Delivery Address / Fitting Location</label>
+                        <input type="text" id="add" placeholder="Plot, Street, City / Town" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="NIN">National ID (NIN) Number</label>
+                        <input type="text" id="NIN" placeholder="CM0000000XXXXX">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='urembo.html'">Back to Closet</button>
+                        <button type="submit" id="saveDetailsBtn" class="btn btn-submit">Save & Submit Details</button>
+                    </div>
+                </section>
+            </form>
+
+            <!-- Status Box for Details Submission -->
+            <div id="detailsStatusBox" class="status-box"></div>
+
+            <!-- STAGE 2: SEPARATE PAYMENTS SECTION (Initially Disabled) -->
+            <form id="paymentGatewayForm" class="payment-section-disabled" onsubmit="handlePaymentSubmission(event)">
+                <section class="form-section" style="border-bottom: none; padding-bottom: 0;">
+                    <h3><span class="step-num">3</span> Mobile Money Payment</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="momoNetwork">Payment Provider</label>
+                            <select id="momoNetwork" required>
+                                <option value="MTN MoMo">MTN Mobile Money (*165#)</option>
+                                <option value="Airtel Money">Airtel Money (*185#)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="momoNumber">Payer Mobile Money Number</label>
+                            <input type="tel" id="momoNumber" placeholder="07XXXXXXXX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="payBtn" class="btn btn-pay">Process Payment Now</button>
+                    </div>
+                </section>
+            </form>
+
+            <!-- Status Box for Payment Processing -->
+            <div id="paymentStatusBox" class="status-box"></div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentBookingId = null;
+
+        // Auto pre-fill item and service mode from localStorage on load
+        window.onload = function() {
+            const selectedItem = localStorage.getItem('selectedItem');
+            const selectedServiceMode = localStorage.getItem('selectedServiceMode');
+
+            if (selectedItem) {
+                const itemSelect = document.getElementById('custItem');
+                for (let option of itemSelect.options) {
+                    if (option.value.toLowerCase() === selectedItem.toLowerCase() || option.text.toLowerCase().includes(selectedItem.toLowerCase())) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
+
+            if (selectedServiceMode) {
+                document.getElementById('serviceType').value = selectedServiceMode;
+            }
+
+            const refField = document.getElementById('customerNumber');
+            if (!refField.value) {
+                refField.value = 'UR-' + Math.floor(100000 + Math.random() * 900000);
+            }
+        };
+
+        // STEP 1: Handle Details Submission
+        function handleDetailsSubmission(event) {
+            event.preventDefault();
+
+            const firstName = document.getElementById('fname').value.trim();
+            const lastName = document.getElementById('lname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const item = document.getElementById('custItem').value;
+            const type = document.getElementById('serviceType').value;
+            const address = document.getElementById('add').value.trim();
+            const ninNumber = document.getElementById('NIN').value.trim();
+            const customerNumber = document.getElementById('customerNumber').value.trim();
+
+            const detailsStatus = document.getElementById('detailsStatusBox');
+            
+            // Generate temporary unique ID for this order
+            currentBookingId = "ORD-" + Date.now();
+
+            const newBooking = {
+                id: currentBookingId,
+                date: new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                name: `${firstName} ${lastName}`,
+                phone: phone,
+                item: item,
+                type: type,
+                address: address,
+                ninNumber: ninNumber || "N/A",
+                customerNumber: customerNumber,
+                paymentStatus: "PENDING PAYMENT"
+            };
+
+            // Save order into Admin Database immediately
+            let currentBookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+            currentBookings.push(newBooking);
+            localStorage.setItem('urembo_bookings', JSON.stringify(currentBookings));
+
+            // Feedback & Enable Step 3 (Payment Section)
+            detailsStatus.className = "status-box status-success";
+            detailsStatus.style.display = "block";
+            detailsStatus.innerHTML = `<strong>Customer Details Saved!</strong><br>Your order reference is <b>${customerNumber}</b>. You can now proceed to Mobile Money payment below.`;
+
+            // Lock Details Form & Unlock Payment Form
+            document.getElementById('saveDetailsBtn').disabled = true;
+            document.getElementById('saveDetailsBtn').innerText = "Details Submitted ✓";
+            document.getElementById('paymentGatewayForm').classList.remove('payment-section-disabled');
+            document.getElementById('momoNumber').value = phone; // Pre-fill MoMo number
+        }
+
+        // STEP 2: Handle Payment Processing
+        async function handlePaymentSubmission(event) {
+            event.preventDefault();
+
+            const payBtn = document.getElementById('payBtn');
+            const paymentStatus = document.getElementById('paymentStatusBox');
+            const momoNetwork = document.getElementById('momoNetwork').value;
+            const momoNumber = document.getElementById('momoNumber').value.trim();
+
+            payBtn.disabled = true;
+            paymentStatus.className = "status-box status-loading";
+            paymentStatus.style.display = "block";
+            paymentStatus.innerHTML = `<strong>Initiating ${momoNetwork}...</strong><br>Sending prompt to <b>${momoNumber}</b>. Please approve with your Mobile Money PIN.`;
+
+            try {
+                const response = await simulateMomoApiPayment();
+
+                if (response.status === "SUCCESS") {
+                    // Update order in local storage to PAID
+                    let currentBookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
+                    const orderIndex = currentBookings.findIndex(b => b.id === currentBookingId);
+
+                    if (orderIndex > -1) {
+                        currentBookings[orderIndex].paymentStatus = "PAID via " + momoNetwork;
+                        currentBookings[orderIndex].transactionId = response.txnId;
+                        localStorage.setItem('urembo_bookings', JSON.stringify(currentBookings));
+                    }
+
+                    paymentStatus.className = "status-box status-success";
+                    paymentStatus.innerHTML = `<strong>Payment Authorized!</strong><br>Txn ID: <b>${response.txnId}</b>. Your booking is finalized. Redirecting to admin portal...`;
+
+                    localStorage.removeItem('selectedItem');
+                    localStorage.removeItem('selectedServiceMode');
+
+                    setTimeout(() => {
+                        window.location.href = "admin.html";
+                    }, 2500);
+                }
+            } catch (err) {
+                paymentStatus.className = "status-box status-error";
+                paymentStatus.innerHTML = `<strong>Payment Failed:</strong> ${err.message}`;
+                payBtn.disabled = false;
+            }
+        }
+
+        // Mock API Call
+        function simulateMomoApiPayment() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        status: "SUCCESS",
+                        txnId: "UGX-MOMO-" + Math.floor(100000000 + Math.random() * 900000000)
+                    });
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
