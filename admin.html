@@ -8,7 +8,10 @@
     <!-- Google Fonts Integration -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CDN for Login Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
@@ -27,27 +30,214 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--secondary); color: var(--dark); min-height: 100vh; padding: 40px 20px; }
-        
-        /* Centered Premium Login Container */
-        .login-box {
-            max-width: 420px; 
-            margin: 80px auto; 
-            background: var(--white); 
-            padding: 45px 40px; 
-            border-radius: 16px; 
-            box-shadow: var(--shadow); 
-            text-align: center;
-            transition: var(--transition);
+        body { background-color: #090a0f; color: var(--dark); min-height: 100vh; padding: 40px 20px; position: relative; overflow-x: hidden; }
+
+        /* ==================== GLASS CYBER LOGIN STYLES ==================== */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            position: relative;
         }
-        .login-box h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 10px; color: var(--primary); }
-        .login-box p { font-size: 0.85rem; color: #777; margin-bottom: 30px; }
-        .login-box input { width: 100%; padding: 14px; margin-bottom: 18px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 0.95rem; outline: none; transition: var(--transition); }
-        .login-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.1); }
-        .login-box button { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: var(--transition); }
-        .login-box button:hover { background: var(--primary-dark); }
-        
-        /* Dashboard Layout */
+
+        /* Animated Glowing Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #ff007f;
+            top: 10%;
+            left: 20%;
+        }
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: #00f0ff;
+            bottom: 10%;
+            right: 20%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 40px) scale(1.1); }
+        }
+
+        /* Glassmorphism Outer Card */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            width: 400px;
+            padding: 40px 35px;
+            background: rgba(18, 20, 29, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                        0 0 30px rgba(0, 240, 255, 0.15);
+            transition: border-color 0.4s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .card-container:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+        }
+
+        /* Header Styling */
+        .card-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .card-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .card-header h2 i {
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff;
+        }
+
+        .card-header p {
+            color: #8a8f9d;
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+
+        /* Input Field Container */
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8a8f9d;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input::placeholder {
+            color: #5c6270;
+        }
+
+        /* Active & Focus States */
+        .input-group input:focus {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .input-group input:focus + i {
+            color: #00f0ff;
+        }
+
+        /* Links Row */
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8a8f9d;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            accent-color: #ff007f;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: #00f0ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #ff007f;
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
+        }
+
+        /* Glowing Cyber Button */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00f0ff, #ff007f);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .alert-notice { 
+            padding: 12px; 
+            background: rgba(255, 39, 112, 0.2); 
+            color: #ff2770; 
+            border: 1px solid #ff2770;
+            border-radius: 8px; 
+            font-size: 0.85rem; 
+            margin-bottom: 18px; 
+            font-weight: 500; 
+            display: none; 
+            text-align: center;
+        }
+
+        /* ==================== DASHBOARD STYLES ==================== */
         .dashboard { display: none; max-width: 1200px; margin: 0 auto; background: var(--white); padding: 40px; border-radius: 16px; box-shadow: var(--shadow); animation: fadeIn 0.4s ease; }
         .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--gray-border); padding-bottom: 20px;}
         .dash-header h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--dark); }
@@ -95,8 +285,6 @@
         .badge-buying { background-color: #E8F5E9; color: #2E7D32; }
         .badge-paid { background-color: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
         .badge-pending { background-color: #FFF3E0; color: #EF6C00; border: 1px solid #FFE0B2; }
-        
-        .alert-notice { padding: 12px; background: #FFEBEE; color: var(--error); border-radius: 8px; font-size: 0.85rem; margin-bottom: 18px; font-weight: 500; display: none; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -113,16 +301,42 @@
 </head>
 <body>
 
-    <!-- Login Form Section -->
-    <div class="login-box" id="loginBox">
-        <h2>Urembo Console</h2>
-        <p>Enter security clearance keys to access management metrics.</p>
-        
-        <div class="alert-notice" id="loginAlert">Incorrect administrative security details!</div>
-        
-        <input type="text" id="username" placeholder="Username " autocomplete="off">
-        <input type="password" id="password" placeholder="Password (*******)">
-        <button onclick="handleLogin()">Authorize Access</button>
+    <!-- Cyberpunk Glass Login Wrapper -->
+    <div class="login-wrapper" id="loginBox">
+        <!-- Background Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <!-- Glass Card -->
+        <div class="card-container">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-shield-halved"></i> Access</h2>
+                <p>Urembo Console Security Clearance</p>
+            </div>
+
+            <div class="alert-notice" id="loginAlert">Incorrect administrative security details!</div>
+
+            <form onsubmit="event.preventDefault(); handleLogin();">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Username" autocomplete="off" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <div class="options-row">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">AUTHORIZE ACCESS</button>
+            </form>
+        </div>
     </div>
 
     <!-- Hidden Dashboard Section -->
@@ -207,6 +421,7 @@
             if (sessionStorage.getItem('urembo_auth') === 'true') {
                 document.getElementById('loginBox').style.display = "none";
                 document.getElementById('dashBox').style.display = "block";
+                document.body.style.backgroundColor = "var(--secondary)"; // Shift body back to warm background
                 loadDashboardData();
                 loadCatalogData();
             }
@@ -223,6 +438,7 @@
                 sessionStorage.setItem('urembo_auth', 'true');
                 document.getElementById('loginBox').style.display = "none";
                 document.getElementById('dashBox').style.display = "block";
+                document.body.style.backgroundColor = "var(--secondary)";
                 loadDashboardData();
                 loadCatalogData();
             } else {
@@ -236,7 +452,8 @@
             document.getElementById('username').value = "";
             document.getElementById('password').value = "";
             document.getElementById('dashBox').style.display = "none";
-            document.getElementById('loginBox').style.display = "block";
+            document.getElementById('loginBox').style.display = "flex";
+            document.body.style.backgroundColor = "#090a0f";
         }
 
         // Load Booking Orders (REST API + LocalStorage Fallback)
@@ -315,7 +532,7 @@
             }
 
             const transactionId = prompt(`Enter Payment Transaction ID / Reference for Order [${bookingId}]:`);
-            if (transactionId === null) return; // User canceled prompt
+            if (transactionId === null) return;
 
             try {
                 const response = await fetch(`${API_BASE_URL}/${bookingId}/payment`, {
@@ -335,7 +552,6 @@
             } catch (err) {
                 console.warn('REST API update failed, attempting local cache fallback:', err.message);
                 
-                // Fallback for local storage
                 let bookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
                 const idx = bookings.findIndex(b => b.id === bookingId);
                 if (idx > -1) {
@@ -364,7 +580,6 @@
                 const result = await response.json();
                 if (!response.ok) throw new Error(result.error || 'Failed to delete booking');
 
-                // Sync local storage if present
                 let localBookings = JSON.parse(localStorage.getItem('urembo_bookings')) || [];
                 localBookings = localBookings.filter(b => b.id !== bookingId);
                 localStorage.setItem('urembo_bookings', JSON.stringify(localBookings));
@@ -461,8 +676,6 @@
             }
 
             let catalog = JSON.parse(localStorage.getItem('urembo_catalog')) || [];
-            
-            // Check if item exists to update it, or add new
             const existingIndex = catalog.findIndex(item => item.name.toLowerCase() === name.toLowerCase());
             
             if (existingIndex > -1) {
@@ -473,7 +686,6 @@
 
             localStorage.setItem('urembo_catalog', JSON.stringify(catalog));
             
-            // Reset input forms
             nameInput.value = '';
             hireInput.value = '';
             buyInput.value = '';
